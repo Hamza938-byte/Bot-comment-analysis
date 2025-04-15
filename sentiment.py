@@ -12,27 +12,25 @@ from sklearn.model_selection import train_test_split
 
 def clear_text(text):
     clear_text = re.sub(r'[^А-яЁё]+',' ',str(text)).lower() # Удаляет все некириллические символы, заменяя их на ' '
-    
+    print(clear_text)
     return ' '.join(clear_text.split())
 
 def clean_stop_words(text, stopwords):
     text = [word for word in text.split() if word not in stopwords]
-
     return ' '.join(text)
 
 def analysis(csvName):
-    Nabor = pd.read_csv(csvName)['textOriginal']
+    Nabor = pd.read_csv(csvName)['comment']
     result = ''
     mostPositive = []
     mostNegative = []
 
-    for i in range(len(Nabor)):   
-
-        text = clean_stop_words(clear_text(Nabor[i]),stopwords)
+    for i in range(len(Nabor)):
+        text = clean_stop_words(clear_text(Nabor[i]), stopwords)
         tf_idf_text = counter_idf.transform([text])
         toxic_proba = model_lr.predict_proba(tf_idf_text)
 
-        if toxic_proba[0,0]>toxic_proba[0,1]:
+        if toxic_proba[0, 0] > toxic_proba[0, 1]:
             mostNegative.append\
             (f'{Nabor[i]} -> Вероятность негатива {toxic_proba[0,0]:.5f}\n\n')
 
@@ -40,8 +38,8 @@ def analysis(csvName):
             mostPositive.append\
             (f'{Nabor[i]} -> Вероятность позитива {toxic_proba[0,1]:.5f}\n\n')
 
-    mostPositive.sort(key=lambda x: float(x[-9:-2]),reverse=True)
-    mostNegative.sort(key=lambda x: float(x[-9:-2]),reverse=True)
+    mostPositive.sort(key=lambda x: float(x[-9:-2]), reverse=True)
+    mostNegative.sort(key=lambda x: float(x[-9:-2]), reverse=True)
     result = 'Наиболее позитивные:\n'+''.join(mostPositive[:3])+'\n'+'Наиболее негативные:\n'+''.join(mostNegative[:3])
     ratioPos = len(mostPositive)/(len(mostPositive)+len(mostNegative))*100
     print('done!')

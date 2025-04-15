@@ -1,7 +1,6 @@
 import csv
 from datetime import datetime as dt
 
-
 today = dt.today().strftime('%d-%m-%Y')
 
 def process_comments(response_items, csv_output=False):
