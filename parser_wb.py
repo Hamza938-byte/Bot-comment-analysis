@@ -1,15 +1,15 @@
 from core.config import BASE_URL
 from core.scraping.page_loader import PageLoader
 from core.scraping.review_extractor import ReviewExtractor
-from core.utils.excel_saver import ExcelSaver
+from core.utils.CSV_saver import CSVSaver
 from core.utils.webdriver import WebDriverManager
 
-def Parser_WB(product_ids):
-    #product_ids = input("Введите артикулы товара: ").split(",")
-   # product_ids = [pid.strip() for pid in product_ids if pid.strip()]
 
+"""   Реализация парсера WB.   """
+
+
+def Parser_WB(product_ids):
     all_reviews = []
-   # for pid in product_ids:
     driver = WebDriverManager.create_webdriver()
     page_loader = PageLoader(driver)
     page_loader.load_page(f"{BASE_URL}{product_ids}/detail.aspx")
@@ -23,5 +23,5 @@ def Parser_WB(product_ids):
         )
     driver.quit()
 
-    ExcelSaver.save_to_excel(all_reviews, product_ids)
+    CSVSaver.save_to_CSV(all_reviews, product_ids)
     return f'wb_reviews_{product_ids}.csv'
