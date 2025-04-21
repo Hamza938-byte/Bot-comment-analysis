@@ -59,7 +59,7 @@ def handle_text(message):
                     bot.reply_to(message, text=result)
 
                 # Удаление датасета с результатами
-                # os.remove(f'./results/{filename}')
+                os.remove(f'./results/{filename}')
 
             except: bot.reply_to(message, text='Произошла ошибка... Пожалуйста, попробуйте ещё раз')
 

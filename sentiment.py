@@ -6,7 +6,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 
-
 """   Реализация анализа отзывов на тональность.   """
 
 
@@ -56,9 +55,9 @@ def analysis(csvName):
     mostNegative.sort(key=lambda x: float(x[-9:-2]), reverse=True)
 
     # Формирование итогового результата
-    result = ('Наиболее позитивные:\n'
+    result = ('📊 Анализ товара\n' + '✅ Позитивные отзывы:\n'
               + ''.join(mostPositive[:2])
-              + '\n' + 'Наиболее негативные:\n'
+              + '\n' + '❌ Негативные отзывы:\n'
               + ''.join(mostNegative[:2]))
     # Расчёт доли позитивных текстов
     ratioPos = len(mostPositive)/(len(mostPositive)+len(mostNegative))*100
